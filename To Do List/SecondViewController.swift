@@ -13,29 +13,24 @@ class SecondViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var textField: UITextField!
     
     @IBAction func addBtnPressed(_ sender: Any) {
-        let listObject = UserDefaults.standard.object(forKey: "todoList")
+        let itemsObject = UserDefaults.standard.object(forKey: "todoList")
+        var input = ""
         
-        if let array = listObject as? NSArray as? [String]{
-            print(array)
-            var updatedArray = array
-            
-            if let userInput = textField.text{
-                let input = String(userInput)
-               // print(input)
-                updatedArray.append(input)
-                UserDefaults.standard.set(updatedArray, forKey: "todoList")
-            }
-            
+        if let userInput = textField.text{
+            input = String(userInput)
+        }
+        
+        if var array = itemsObject as? NSArray as? [String]{
+            //if let userInput = textField.text{
+            //    let input = String(userInput)
+                array.append(input)
+                UserDefaults.standard.set(array, forKey: "todoList")
+            //}
         }else{
-            print(textField.text)
-            
-            if let userInput = textField.text{
-                let input = String(userInput)
-                var updatedArray = [input]
-                UserDefaults.standard.set(updatedArray, forKey: "todoList")
-                
-            }
-
+            //if let userInput = textField.text{
+             //   let input = String(userInput)
+                UserDefaults.standard.set([input], forKey: "todoList")
+            //}
         }
         
         textField.text = ""
