@@ -21,6 +21,7 @@ class FirstViewController: UIViewController, UITableViewDelegate, UITableViewDat
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell{
         
         let cell = UITableViewCell(style: UITableViewCellStyle.default, reuseIdentifier: "Cell")
+        
         if numRows > 0{
             cell.textLabel?.text = String( todos[indexPath.row] )
         }else{
@@ -29,13 +30,16 @@ class FirstViewController: UIViewController, UITableViewDelegate, UITableViewDat
         return cell
     }
     
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath){
+        cell.backgroundColor = UIColor.clear
+    }
+    
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return true
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == UITableViewCellEditingStyle.delete{
-            print("removing \(indexPath.row)")
             if numRows > 0{
                 todos.remove(at: indexPath.row)
                 numRows = todos.count
@@ -48,13 +52,7 @@ class FirstViewController: UIViewController, UITableViewDelegate, UITableViewDat
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        
-//        let listObject = UserDefaults.standard.object(forKey: "todoList")
-//        if let array = listObject as? NSArray as? [String]{
-//            print("in viewDidLoad --> \(array) ")
-//            numRows = array.count
-//            todos = array
-//        }
+        self.todoTable.backgroundColor = UIColor.blue
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -62,7 +60,6 @@ class FirstViewController: UIViewController, UITableViewDelegate, UITableViewDat
         
         let listObject = UserDefaults.standard.object(forKey: "todoList")
         if let array = listObject as? NSArray as? [String]{
-            print("in viewDidAppear --> \(array) ")
             numRows = array.count
             todos = array
             todoTable.reloadData()
